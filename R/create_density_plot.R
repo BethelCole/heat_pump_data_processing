@@ -2,7 +2,7 @@ create_density_plot = function(energy_type_expenditure_share,
                                analysis_var = "dollarel_share_energy_expenditures",
                                yearSelect = 2017,
                                facetSelect = TRUE,
-                               facet_var = "euipment_summary"){
+                               facet_var = "equipm_summarized"){
   
   
   # if(facet_var == "usrep_region") {
@@ -11,9 +11,18 @@ create_density_plot = function(energy_type_expenditure_share,
   # }
   
   
+  if(yearSelect == 0){
+    
+    energy_type_expenditure_share <- energy_type_expenditure_share
+    
+  } else if(yearSelect %in% c(2015, 2016, 2017, 2018, 2019)) {
+    
+    energy_type_expenditure_share <- energy_type_expenditure_share %>%
+      dplyr::filter(year == yearSelect)
+  }
   
-  energy_type_expenditure_share <- energy_type_expenditure_share %>%
-    dplyr::filter(year == yearSelect)
+  
+  
   
   if(analysis_var %in% c("dollarng_share_energy_expenditures", 
                          "dollarel_share_energy_expenditures",
@@ -56,11 +65,14 @@ create_density_plot = function(energy_type_expenditure_share,
   #   xlim(-0.1, 0.2)
   
   
-  if(facet_var == "equipment_all"){
-    
-  } else if (facet_var == "euipment_summary"){
-    
-  }
+  # if(facet_var == "equipment_all"){
+  #   
+  #   facetVariable <- "equipm"
+  #     
+  # } else if (facet_var == "equipment_summary"){
+  #   
+  #   facetVariable <- "equipm_summarized"
+  # }
   
 if(facetSelect == TRUE) {
   
@@ -83,12 +95,12 @@ if(facetSelect == TRUE) {
     #                               "fusionCEI" = "blue",
     #                               "StatMatch_new" = "purple")) +
     scale_color_viridis_d() +
-    labs(title = paste0("Expenditure Share of Income - "),
-         color = "Survey") +
+    # labs(title = paste0("Share of Energy Expenditure"),
+    #      color = "Survey") +
     theme_bw()
     
   
-  name = paste0("output/expenditureDensityByIncome_",analysis_var,"_",facet_var,"_",Sys.Date(),".png")
+  #name = paste0("output/expenditureDensityByIncome_",analysis_var,"_",facet_var,"_",Sys.Date(),".png")
   
   # ggsave(p_final,
   #        filename = name,
@@ -101,14 +113,9 @@ if(facetSelect == TRUE) {
     
 }
 
-#ggbarcrosstabs_svy(recs_object,income_group_extended,energy_dollars) 
-# list_of_analysis_vars <- c("energy_pct_income", "elec_pct_income", "ngas_pct_income", "ofuel_pct_income", "trn_pct_income", "srv_pct_income", "oth_sec_pct_income", "trspt_gas_pct_income", "bld_pct_income", "eis_pct_income", "agr_pct_income", "che_pct_income", "nmp_pct_income", "pmt_pct_income")
-# 
-# list_of_analysis_vars <- c("energy_pct_income")
-# 
-# for (i in list_of_analysis_vars) {
-#   
-#   create_density_plot(facetSelect = TRUE,
-#                       facet_var = "income_updated",
-#                       i)
-# }
+
+# create_density_plot(energy_type_expenditure_share,
+#                     analysis_var = "dollarel_share_energy_expenditures",
+#                     yearSelect = 2017,
+#                     facetSelect = TRUE,
+#                     facet_var = "equipm_summarized")
