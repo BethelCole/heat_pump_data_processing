@@ -19,9 +19,13 @@ list(
   tar_target(fusionACS_data_20250723_02_RECS_2015_H, read_parquet(fusionACS_data_20250723_02_RECS_2015_H_parquet)),
   
   # create equipment_use_dataset
-  tar_target(equipment_use_dataset, create_heating_equipment_dataset(fusionACS_data_20250723_01_ACS_H,
-                                                                      fusionACS_data_20250723_02_RECS_2015_H,
-                                                                      grouping_detail = "equipm")),
+  tar_target(heating_equipment_dataset, create_heating_equipment_dataset(fusionACS_data_20250723_01_ACS_H,
+                                                                      fusionACS_data_20250723_02_RECS_2015_H)),
+  
+  tar_target(year_state_equipm_summary, create_year_state_equipm_summary(heating_equipment_dataset,
+                                                                         grouping_detail = "equipm")),
+  
+  tar_target(energy_type_expenditure_share, create_energy_type_expenditure_share(heating_equipment_dataset)),
   
   # Outputs
   tar_render(heat_pump_data_viz,
